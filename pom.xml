@@ -22,7 +22,7 @@
                         <manifest>
                             <addClasspath>true</addClasspath>
                             <classpathPrefix>lib/</classpathPrefix>
-                            <mainClass>Split.Main</mainClass>
+                            <mainClass>Utility.Main</mainClass>
                         </manifest>
                     </archive>
                 </configuration>

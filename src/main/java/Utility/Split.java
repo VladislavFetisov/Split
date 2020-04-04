@@ -42,7 +42,7 @@ public class Split {
 
     public String setOutputName(String basicOutputName, String inputName, boolean outputNameWithNumbers) {
         if (basicOutputName == null) basicOutputName = "X";
-        else if(basicOutputName.equals("-")) basicOutputName = inputName;
+        else if (basicOutputName.equals("-")) basicOutputName = inputName;
         if (outputNameWithNumbers) {
             ++countFiles;
             return basicOutputName + countFiles;
@@ -63,12 +63,12 @@ public class Split {
 
             if (countInChars != 0) {
                 if (countInLines != 0 || countOfFiles != 0)
-                    throw new IllegalArgumentException("Несколько аргументов для разделения не могут использоваться вместе!");
+                    throw new IllegalArgumentException("РЎРѕРІРјРµСЃС‚РЅРѕРµ РёСЃРїРѕР»СЊР·РѕРІР°РЅРёРµ Р°СЂРіСѓРјРµРЅС‚РѕРІ РЅРµРІРѕР·РјРѕР¶РЅРѕ!");
                 maxCount = countInChars;
                 chr = reader.read();
             } else if (countOfFiles != 0) {
                 if (countInLines != 0)
-                    throw new IllegalArgumentException("Несколько аргументов для разделения не могут использоваться вместе!");
+                    throw new IllegalArgumentException("РЎРѕРІРјРµСЃС‚РЅРѕРµ РёСЃРїРѕР»СЊР·РѕРІР°РЅРёРµ Р°СЂРіСѓРјРµРЅС‚РѕРІ РЅРµРІРѕР·РјРѕР¶РЅРѕ!");
                 maxCount = fileSize(inputName) / countOfFiles;
                 chr = reader.read();
                 workingWithFiles = true;
@@ -80,17 +80,16 @@ public class Split {
             while (checking(workingWithString, workingWithFiles, line, chr, countOfFiles)) {
                 String outputName = setOutputName(basicOutputName, inputName, outputNameWithNumbers);
 
-                //сделать переменную output path
-                Writer writer = new OutputStreamWriter
-                        (new FileOutputStream("C:\\Users\\Владислав\\Desktop\\output\\" + outputName), UTF_8);
+
+                Writer writer = new OutputStreamWriter(new FileOutputStream(outputName), UTF_8);
                 BufferedWriter bufferedWriter = new BufferedWriter(writer);
 
-                while (count != maxCount) {//здесь происходит запись в файл,может по линиям,может по символам.
+                while (count != maxCount) {
                     if (workingWithString) {
                         bufferedWriter.write(line + System.lineSeparator());
                         line = reader.readLine();
                         if (line == null) break;
-                    } else {//то есть работаем либо с кол-вом файлом,либо с кол-вом символов
+                    } else {
                         bufferedWriter.write((char) chr);
                         chr = reader.read();
                         if (chr == -1) break;
@@ -100,12 +99,12 @@ public class Split {
                 count = 0;
                 bufferedWriter.close();
                 writer.close();
-                if (countFiles > 100) break;//убрать
+                if (countFiles > 100) break;
             }
             reader.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return "Выполнено";
+        return "Р’С‹РїРѕР»РЅРµРЅРѕ";
     }
 }
