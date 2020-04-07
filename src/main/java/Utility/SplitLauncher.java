@@ -10,13 +10,13 @@ public class SplitLauncher {
     @Option(name = "-d", usage = "oName with numbers")
     private boolean oNameWithNum;
 
-    @Option(name = "-l", usage = "sets size oFiles in lines")
+    @Option(name = "-l", usage = "sets size oFiles in lines", forbids = {"-c", "-n"})
     private int countInLines;
 
-    @Option(name = "-c", usage = "sets size oFiles in chars")
+    @Option(name = "-c", usage = "sets size oFiles in chars", forbids = {"-n", "-l"})
     private int countInChars;
 
-    @Option(name = "-n", usage = "sets count of oFiles")
+    @Option(name = "-n", usage = "sets count of oFiles", forbids = {"-c", "-l"})
     private int countOfFiles;
 
     @Option(name = "-o", usage = "output file name")
@@ -35,7 +35,7 @@ public class SplitLauncher {
             System.err.println("java -jar split.jar [-d] [-l num|-c num|-n num] [-o oFile] file");
             parser.printUsage(System.err);
         }
-        Split spliterator = new Split();
-        System.out.println(spliterator.cutFile(inputFileName, countInChars, countInLines, countOfFiles, basicOutputName, oNameWithNum));
+        Split spliterator = new Split(oNameWithNum);
+        System.out.println(spliterator.cutFile(inputFileName, countInChars, countInLines, countOfFiles, basicOutputName));
     }
 }
