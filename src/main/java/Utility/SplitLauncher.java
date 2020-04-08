@@ -32,10 +32,10 @@ public class SplitLauncher {
             parser.parseArgument(args);
         } catch (CmdLineException e) {
             System.err.println(e.getMessage());
-            System.err.println("java -jar split.jar [-d] [-l num|-c num|-n num] [-o oFile] file");
+            System.err.println("java -jar split.jar [-d] [-l num|-c num|-n num] [-o oFile] iFile");
             parser.printUsage(System.err);
         }
-        Split spliterator = new Split(oNameWithNum);
+        Split spliterator = new Split("src/main/resources/InputFiles/", "src/main/resources/OutputFiles/", oNameWithNum);
         System.out.println(spliterator.cutFile(inputFileName, countInChars, countInLines, countOfFiles, basicOutputName));
     }
 }
