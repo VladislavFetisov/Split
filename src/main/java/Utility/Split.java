@@ -7,7 +7,7 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 
 public class Split {
     private String Input_Path, Output_Path;
-    private static int countFiles = 0;
+    private  int countFiles = 0;
     private String[] array = createNamesArray();
     private boolean workingWithNumbers;
 
@@ -45,7 +45,7 @@ public class Split {
         double count = 0;
         int chr = reader.read();
         while (chr != -1) {
-            if (chr == '\n') count--;
+            if (chr == '\n') reader.read();
             count++;
             chr = reader.read();
         }
@@ -53,7 +53,7 @@ public class Split {
         return count;
     }
 
-    public String setOutputName(String basicOutputName, String inputName) {
+    String setOutputName(String basicOutputName, String inputName) {
         if (basicOutputName == null) basicOutputName = "X";
         else if (basicOutputName.equals("-")) basicOutputName = inputName;
         if (workingWithNumbers) {
@@ -65,7 +65,7 @@ public class Split {
         }
     }
 
-    public String cutFile(String inputName, int countInChars, int countInLines, int countOfFiles, String basicOutputName) {
+    public boolean cutFile (String inputName, int countInChars, int countInLines, int countOfFiles, String basicOutputName) {
         int chr = 0, count = 0, maxCount = 0;
         boolean workingWithString = false, workingWithFiles = false;
         String line = null;
@@ -111,11 +111,10 @@ public class Split {
                 }
                 count = 0;
                 writer.close();
-                if (countFiles > 100) break;
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return "Выполнено";
+        return true;
     }
 }
