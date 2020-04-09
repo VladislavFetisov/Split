@@ -5,6 +5,8 @@ import org.kohsuke.args4j.CmdLineException;
 import org.kohsuke.args4j.CmdLineParser;
 import org.kohsuke.args4j.Option;
 
+import java.io.IOException;
+
 
 public class SplitLauncher {
     @Option(name = "-d", usage = "oName with numbers")
@@ -31,9 +33,10 @@ public class SplitLauncher {
         try {
             parser.parseArgument(args);
 
-            Split spliterator = new Split("src/main/resources/InputFiles/", "src/main/resources/OutputFiles/", oNameWithNum);
+            Split spliterator = new Split("src/main/resources/InputFiles/",
+                    "src/main/resources/OutputFiles/", oNameWithNum);
             System.out.println(spliterator.cutFile(inputFileName, countInChars, countInLines, countOfFiles, basicOutputName));
-        } catch (CmdLineException e) {
+        } catch (CmdLineException | IOException e) {
             System.err.println(e.getMessage());
             System.err.println("java -jar split.jar [-d] [-l num|-c num|-n num] [-o oFile] iFile");
             parser.printUsage(System.err);

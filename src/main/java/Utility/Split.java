@@ -7,7 +7,7 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 
 public class Split {
     private String Input_Path, Output_Path;
-    private  int countFiles = 0;
+    private int countFiles = 0;
     private String[] array = createNamesArray();
     private boolean workingWithNumbers;
 
@@ -39,17 +39,18 @@ public class Split {
     }
 
     public double fileSize(String inputName) throws IOException {
-        BufferedReader reader = new BufferedReader(
-                new InputStreamReader(new FileInputStream(inputName), UTF_8));
-
         double count = 0;
-        int chr = reader.read();
-        while (chr != -1) {
-            if (chr == '\n') reader.read();
-            count++;
-            chr = reader.read();
+
+        try (BufferedReader reader = new BufferedReader(
+                new InputStreamReader(new FileInputStream(inputName), UTF_8))) {
+
+            int chr = reader.read();
+            while (chr != -1) {
+                if(chr=='\n') reader.read();
+                count++;
+                chr = reader.read();
+            }
         }
-        reader.close();
         return count;
     }
 
@@ -65,15 +66,16 @@ public class Split {
         }
     }
 
-    public boolean cutFile (String inputName, int countInChars, int countInLines, int countOfFiles, String basicOutputName) {
+    public boolean cutFile(String inputName, int countInChars, int countInLines, int countOfFiles, String basicOutputName)
+            throws IOException {
         int chr = 0, count = 0, maxCount = 0;
         boolean workingWithString = false, workingWithFiles = false;
         String line = null;
 
 
-        try {
-            BufferedReader reader = new BufferedReader(
-                    new InputStreamReader(new FileInputStream(Input_Path + inputName), UTF_8));
+        try (BufferedReader reader = new BufferedReader(
+                new InputStreamReader(new FileInputStream(Input_Path + inputName), UTF_8))) {
+
 
             if (countInChars != 0) {
                 maxCount = countInChars;
@@ -92,28 +94,26 @@ public class Split {
             while (checking(workingWithString, workingWithFiles, line, chr, countOfFiles)) {
                 String outputName = setOutputName(basicOutputName, inputName);
 
-                BufferedWriter writer =
-                        new BufferedWriter(new OutputStreamWriter(
-                                new FileOutputStream(Output_Path + outputName), UTF_8));
+                try (BufferedWriter writer =
+                             new BufferedWriter(new OutputStreamWriter(
+                                     new FileOutputStream(Output_Path + outputName), UTF_8))) {
 
-                while (count != maxCount) {
-                    if (workingWithString) {
-                        writer.write(line + System.lineSeparator());
-                        line = reader.readLine();
-                        if (line == null) break;
-                    } else {
-                        writer.write((char) chr);
-                        chr = reader.read();
-                        if (chr == '\n') chr = reader.read();
-                        if (chr == -1) break;
+                    while (count != maxCount) {
+                        if (workingWithString) {
+                            writer.write(line + System.lineSeparator());
+                            line = reader.readLine();
+                            if (line == null) break;
+                        } else {
+                            writer.write((char) chr);
+                            chr = reader.read();
+                            if (chr == '\n') chr = reader.read();
+                            if (chr == -1) break;
+                        }
+                        ++count;
                     }
-                    ++count;
+                    count = 0;
                 }
-                count = 0;
-                writer.close();
             }
-        } catch (IOException e) {
-            e.printStackTrace();
         }
         return true;
     }
