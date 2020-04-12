@@ -3,8 +3,8 @@
     <output-path>$PROJECT_DIR$/out/artifacts/Split_jar</output-path>
     <root id="archive" name="Split.jar">
       <element id="module-output" name="Split" />
-      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/args4j/args4j/2.33/args4j-2.33.jar" path-in-jar="/" />
       <element id="extracted-dir" path="C:/args4j-2.33.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/args4j/args4j/2.33/args4j-2.33.jar" path-in-jar="/" />
     </root>
   </artifact>
 </component>

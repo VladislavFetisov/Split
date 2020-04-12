@@ -1,5 +1,7 @@
 package Utility;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.io.*;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
@@ -17,13 +19,22 @@ public class Split {
         this.workingWithNumbers = workingWithNumbers;
     }
 
-    public boolean checking(boolean workingWithString, boolean workingWithFiles, String line, int chr, int countOfFiles) {
+    private boolean checking(boolean workingWithString, boolean workingWithFiles, String line, int chr, int countOfFiles) {
         if (workingWithString) return line != null;
         else if (workingWithFiles) return countFiles != countOfFiles;
         else return chr != -1;
     }
 
-    public String[] createNamesArray() {
+    private void throwExceptionIfNecessary(int countOfFiles, int countOfChars, int countOfLines) {
+        int sum = countOfChars + countOfFiles + countOfLines;
+        if (sum == 0) throw new IllegalArgumentException(
+                "Вы не ввели значение ни одного аргумента");
+        else if (sum < 0) throw new IllegalArgumentException(
+                "Аргументы не могут быть меньше 0");
+    }
+
+    @NotNull
+    private String[] createNamesArray() {
         if (workingWithNumbers) return new String[1];
         int alphabetCount = 0;
         int englishAlphabet = 26;
@@ -38,7 +49,7 @@ public class Split {
         return array;
     }
 
-    public double fileSize(String inputName) throws IOException {
+    private double fileSize(String inputName) throws IOException {
         double count = 0;
 
         try (BufferedReader reader = new BufferedReader(
@@ -46,7 +57,7 @@ public class Split {
 
             int chr = reader.read();
             while (chr != -1) {
-                if(chr=='\n') reader.read();
+                if (chr == '\n') reader.read();
                 count++;
                 chr = reader.read();
             }
@@ -54,7 +65,8 @@ public class Split {
         return count;
     }
 
-    String setOutputName(String basicOutputName, String inputName) {
+    @NotNull
+    private String setOutputName(String basicOutputName, String inputName) {
         if (basicOutputName == null) basicOutputName = "X";
         else if (basicOutputName.equals("-")) basicOutputName = inputName;
         if (workingWithNumbers) {
@@ -66,8 +78,11 @@ public class Split {
         }
     }
 
-    public boolean cutFile(String inputName, int countInChars, int countInLines, int countOfFiles, String basicOutputName)
-            throws IOException {
+    boolean cutFile(String inputName, int countInChars, int countInLines, int countOfFiles, String basicOutputName)
+            throws IOException, IllegalArgumentException {
+
+        throwExceptionIfNecessary(countOfFiles, countInChars, countInLines);
+
         int chr = 0, count = 0, maxCount = 0;
         boolean workingWithString = false, workingWithFiles = false;
         String line = null;
