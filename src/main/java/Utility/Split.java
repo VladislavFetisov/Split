@@ -9,7 +9,7 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 
 public class Split {
     private String Input_Path, Output_Path;
-    private int countFiles = 0;
+    public int countFiles = 0;
     private String[] array = createNamesArray();
     private boolean workingWithNumbers;
 
@@ -115,9 +115,10 @@ public class Split {
 
                     while (count != maxCount) {
                         if (workingWithString) {
-                            writer.write(line + System.lineSeparator());
+                            writer.write(line);
                             line = reader.readLine();
                             if (line == null) break;
+                            else writer.write(System.lineSeparator());
                         } else {
                             writer.write((char) chr);
                             chr = reader.read();
