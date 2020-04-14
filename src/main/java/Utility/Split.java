@@ -49,7 +49,7 @@ public class Split {
         return array;
     }
 
-    private double fileSize(String inputName) throws IOException {
+    public static  double fileSize(String inputName) throws IOException {
         double count = 0;
 
         try (BufferedReader reader = new BufferedReader(

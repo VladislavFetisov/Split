@@ -7,6 +7,7 @@ import java.io.*;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.apache.commons.io.FileUtils.readFileToString;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class SplitLauncherTest {
 
@@ -40,11 +41,37 @@ class SplitLauncherTest {
         o4 = new File(OutputPath + args[3] + "ad");
         output = readFileToString(o1, UTF_8) + readFileToString(o2, UTF_8) +
                 readFileToString(o3, UTF_8) + readFileToString(o4, UTF_8);
-        assertEquals(inputInString.replace("\n","\r\n"), output);
-        assertEquals(4,countInLines(o1));
-        assertEquals(4,countInLines(o2));
-        assertEquals(4,countInLines(o3));
-        assertEquals(2,countInLines(o4));
+        assertEquals(inputInString.replace("\r", "\r\n"), output);
+        assertEquals(4, countInLines(o1));
+        assertEquals(4, countInLines(o2));
+        assertEquals(4, countInLines(o3));
+        assertEquals(2, countInLines(o4));
+
+        args = new String[]{"-n", "7", "InputOnegin"};
+        Main.main(args);
+        o1 = new File(OutputPath + "X" + "aa");
+        o2 = new File(OutputPath + "X" + "ab");
+        o3 = new File(OutputPath + "X" + "ac");
+        o4 = new File(OutputPath + "X" + "ad");
+        File o5 = new File(OutputPath + "X" + "ae");
+        File o6 = new File(OutputPath + "X" + "af");
+        File o7 = new File(OutputPath + "X" + "ag");
+        output = readFileToString(o1, UTF_8) + readFileToString(o2, UTF_8) +
+                readFileToString(o3, UTF_8) + readFileToString(o4, UTF_8) +
+                readFileToString(o5, UTF_8) + readFileToString(o6, UTF_8) +
+                readFileToString(o7, UTF_8);
+        assertEquals(inputInString, output);
+        assertEquals(Math.ceil(Split.fileSize("src/main/resources/InputFiles/inputOnegin") / 7),
+                readFileToString(o1, UTF_8).length());
+
+        args=new String[]{"-d","-l","-40","InputOnegin"};
+        String[] finalArgs = args;
+        Exception exception = assertThrows(IllegalArgumentException.class, () ->Main.main(finalArgs));
+
+        String expectedMessage = "Воспользуйтесь методом очищения клетки!";
+        String actualMessage = exception.getMessage();
+
+        assertEquals(actualMessage, expectedMessage);
     }
 
     private int countInLines(File file) throws IOException {
