@@ -1,6 +1,7 @@
 package Utility;
 
 import org.junit.jupiter.api.Test;
+import org.kohsuke.args4j.CmdLineException;
 
 import java.io.*;
 
@@ -12,7 +13,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 class SplitLauncherTest {
 
     @Test
-    void mainTests() throws IOException {
+    void mainTests() throws IOException, CmdLineException {
         String OutputPath = "src/main/resources/OutputFiles/";
         File inputFile = new File("src/main/resources/InputFiles/inputOnegin");
         String inputInString = readFileToString(inputFile, UTF_8);
@@ -47,6 +48,7 @@ class SplitLauncherTest {
         assertEquals(4, countInLines(o3));
         assertEquals(2, countInLines(o4));
 
+
         args = new String[]{"-n", "7", "InputOnegin"};
         Main.main(args);
         o1 = new File(OutputPath + "X" + "aa");
@@ -64,14 +66,31 @@ class SplitLauncherTest {
         assertEquals(Math.ceil(Split.fileSize("src/main/resources/InputFiles/inputOnegin") / 7),
                 readFileToString(o1, UTF_8).length());
 
-        args=new String[]{"-d","-l","-40","InputOnegin"};
+        args = new String[]{"-d", "-l", "-12", "InputOnegin"};
         String[] finalArgs = args;
-        Exception exception = assertThrows(IllegalArgumentException.class, () ->Main.main(finalArgs));
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> Main.main(finalArgs));
 
-        String expectedMessage = "Воспользуйтесь методом очищения клетки!";
+        String expectedMessage = "Аргументы не могут быть меньше 0";
         String actualMessage = exception.getMessage();
+        assertEquals(expectedMessage, actualMessage);
 
-        assertEquals(actualMessage, expectedMessage);
+
+        args = new String[]{"-o", "Output", "InputOnegin"};
+        String[] finalArgs1 = args;
+
+        exception = assertThrows(IllegalArgumentException.class, () -> Main.main(finalArgs1));
+
+        expectedMessage = "Вы не ввели значение ни одного аргумента";
+        actualMessage = exception.getMessage();
+        assertEquals(expectedMessage, actualMessage);
+
+
+        args=new String[]{"-l","4","-o","Output","onputOnegin"};
+        String[] finalArgs2 = args;
+        assertThrows(IOException.class, () -> Main.main(finalArgs2));
+
+        args=new String[]{"-c","50","asd"};
+        Main.main(args);
     }
 
     private int countInLines(File file) throws IOException {

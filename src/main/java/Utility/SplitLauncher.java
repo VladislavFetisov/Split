@@ -27,7 +27,7 @@ public class SplitLauncher {
     @Argument(required = true, usage = "input file name")
     private String inputFileName;
 
-    public void launch(String[] args) {
+    public void launch(String[] args) throws IOException, CmdLineException {
         CmdLineParser parser = new CmdLineParser(this);
 
         try {
@@ -39,6 +39,7 @@ public class SplitLauncher {
             System.err.println(e.getMessage());
             System.err.println("java -jar split.jar [-d] [-l num|-c num|-n num] [-o oFile] iFile");
             parser.printUsage(System.err);
+            throw e;
         }
     }
 }

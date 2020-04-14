@@ -3,15 +3,16 @@ package Utility;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.*;
+import java.util.logging.Logger;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
-
 
 public class Split {
     private String Input_Path, Output_Path;
     public int countFiles = 0;
     private String[] array = createNamesArray();
     private boolean workingWithNumbers;
+    private static Logger logger = Logger.getLogger(String.valueOf(Split.class));
 
     public Split(String Input_Path, String Output_Path, boolean workingWithNumbers) {
         this.Input_Path = Input_Path;
@@ -49,7 +50,7 @@ public class Split {
         return array;
     }
 
-    public static  double fileSize(String inputName) throws IOException {
+    public static double fileSize(String inputName) throws IOException {
         double count = 0;
 
         try (BufferedReader reader = new BufferedReader(
@@ -57,7 +58,7 @@ public class Split {
 
             int chr = reader.read();
             while (chr != -1) {
-                if (chr == '\n') reader.read();
+                if (chr == '\n') chr=reader.read();
                 count++;
                 chr = reader.read();
             }
@@ -101,9 +102,17 @@ public class Split {
                 chr = reader.read();
                 if (chr == '\n') chr = reader.read();
                 workingWithFiles = true;
+            }
+            if (chr == -1) {
+                logger.info("Текст пустой,выберете подходящий текст и повторите попытку");
+                return false;
             } else if (countInLines != 0) {
                 maxCount = countInLines;
                 line = reader.readLine();
+                if (line == null) {
+                    logger.info("Текст пустой,выберете подходящий текст и повторите попытку");
+                    return false;
+                }
                 workingWithString = true;
             }
             while (checking(workingWithString, workingWithFiles, line, chr, countOfFiles)) {
