@@ -70,7 +70,7 @@ class SplitLauncherTest {
         String[] finalArgs = args;
         Exception exception = assertThrows(IllegalArgumentException.class, () -> Main.main(finalArgs));
 
-        String expectedMessage = "Аргументы не могут быть меньше 0";
+        String expectedMessage = "Arguments cant be less than 0";
         String actualMessage = exception.getMessage();
         assertEquals(expectedMessage, actualMessage);
 
@@ -80,7 +80,7 @@ class SplitLauncherTest {
 
         exception = assertThrows(IllegalArgumentException.class, () -> Main.main(finalArgs1));
 
-        expectedMessage = "Вы не ввели значение ни одного аргумента";
+        expectedMessage = "You didnt enter any of arguments";
         actualMessage = exception.getMessage();
         assertEquals(expectedMessage, actualMessage);
 

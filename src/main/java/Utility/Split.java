@@ -9,7 +9,7 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 
 public class Split {
     private String Input_Path, Output_Path;
-    public int countFiles = 0;
+    private int countFiles = 0;
     private String[] array = createNamesArray();
     private boolean workingWithNumbers;
     private static Logger logger = Logger.getLogger(String.valueOf(Split.class));
@@ -29,9 +29,9 @@ public class Split {
     private void throwExceptionIfNecessary(int countOfFiles, int countOfChars, int countOfLines) {
         int sum = countOfChars + countOfFiles + countOfLines;
         if (sum == 0) throw new IllegalArgumentException(
-                "Вы не ввели значение ни одного аргумента");
+                "You didnt enter any of arguments or value of argument is 0");
         else if (sum < 0) throw new IllegalArgumentException(
-                "Аргументы не могут быть меньше 0");
+                "Arguments cant be less than 0");
     }
 
     @NotNull
@@ -104,13 +104,13 @@ public class Split {
                 workingWithFiles = true;
             }
             if (chr == -1) {
-                logger.info("Текст пустой,выберете подходящий текст и повторите попытку");
+                logger.info("Text is empty.Please choose different file and try again");
                 return false;
             } else if (countInLines != 0) {
                 maxCount = countInLines;
                 line = reader.readLine();
                 if (line == null) {
-                    logger.info("Текст пустой,выберете подходящий текст и повторите попытку");
+                    logger.info("Text is empty.Please choose different file and try again");
                     return false;
                 }
                 workingWithString = true;
