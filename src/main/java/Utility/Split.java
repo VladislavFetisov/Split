@@ -58,7 +58,6 @@ public class Split {
 
             int chr = reader.read();
             while (chr != -1) {
-                if (chr == '\n') chr=reader.read();
                 count++;
                 chr = reader.read();
             }
@@ -96,11 +95,9 @@ public class Split {
             if (countInChars != 0) {
                 maxCount = countInChars;
                 chr = reader.read();
-                if (chr == '\n') chr = reader.read();
             } else if (countOfFiles != 0) {
                 maxCount = (int) Math.ceil(fileSize(Input_Path + inputName) / countOfFiles);
                 chr = reader.read();
-                if (chr == '\n') chr = reader.read();
                 workingWithFiles = true;
             }
             if (chr == -1) {
@@ -131,7 +128,6 @@ public class Split {
                         } else {
                             writer.write((char) chr);
                             chr = reader.read();
-                            if (chr == '\n') chr = reader.read();
                             if (chr == -1) break;
                         }
                         ++count;

@@ -80,7 +80,7 @@ class SplitLauncherTest {
 
         exception = assertThrows(IllegalArgumentException.class, () -> Main.main(finalArgs1));
 
-        expectedMessage = "You didnt enter any of arguments";
+        expectedMessage = "You didnt enter any of arguments or value of argument is 0";
         actualMessage = exception.getMessage();
         assertEquals(expectedMessage, actualMessage);
 
