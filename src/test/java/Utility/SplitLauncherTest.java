@@ -66,6 +66,24 @@ class SplitLauncherTest {
         assertEquals(Math.ceil(Split.fileSize("src/main/resources/InputFiles/inputOnegin") / 7),
                 readFileToString(o1, UTF_8).length());
 
+
+        args = new String[]{"-d", "-c", "120", "-o", "-", "InputOnegin"};
+        Main.main(args);
+        o1 = new File(OutputPath + args[5] + 1);
+        o2 = new File(OutputPath + args[5] + 2);
+        o3 = new File(OutputPath + args[5] + 3);
+        o4 = new File(OutputPath + args[5] + 4);
+
+        output = readFileToString(o1, UTF_8) + readFileToString(o2, UTF_8) +
+                readFileToString(o3, UTF_8) + readFileToString(o4, UTF_8);
+        assertEquals(inputInString, output);
+        assertEquals(120, readFileToString(o1, UTF_8).length());
+        assertEquals(120, readFileToString(o2, UTF_8).length());
+        assertEquals(120, readFileToString(o3, UTF_8).length());
+        assertEquals(inputInString.length() - 120 * 3, readFileToString(o4, UTF_8).length());
+
+
+
         args = new String[]{"-d", "-l", "-12", "InputOnegin"};
         String[] finalArgs = args;
         Exception exception = assertThrows(IllegalArgumentException.class, () -> Main.main(finalArgs));
@@ -89,8 +107,6 @@ class SplitLauncherTest {
         String[] finalArgs2 = args;
         assertThrows(IOException.class, () -> Main.main(finalArgs2));
 
-        args=new String[]{"-c","50","asd"};
-        Main.main(args);
     }
 
     private int countInLines(File file) throws IOException {
