@@ -103,13 +103,13 @@ public class Split {
                 workingWithFiles = true;
             }
             if (chr == -1) {
-                logger.info("Text is empty.Please choose different file and try again");
+                logger.info("Text is empty.Please choose different file and try again!");
                 return false;
             } else if (countInLines != 0) {
                 maxCount = countInLines;
                 line = reader.readLine();
                 if (line == null) {
-                    logger.info("Text is empty.Please choose different file and try again");
+                    logger.info("Text is empty.Please choose different file and try again!");
                     return false;
                 }
                 workingWithString = true;
