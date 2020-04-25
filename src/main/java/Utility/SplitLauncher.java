@@ -5,7 +5,10 @@ import org.kohsuke.args4j.CmdLineException;
 import org.kohsuke.args4j.CmdLineParser;
 import org.kohsuke.args4j.Option;
 
+import java.io.File;
 import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 
 public class SplitLauncher {
@@ -28,13 +31,15 @@ public class SplitLauncher {
     private String inputFileName;
 
     public void launch(String[] args) throws IOException, CmdLineException {
-        CmdLineParser parser = new CmdLineParser(this);
+        char sep = File.separatorChar;
+        Path InputPath = Paths.get("src" + sep + "main" + sep + "resources" + sep + "InputFiles");
+        Path OutputPath = Paths.get("src" + sep + "main" + sep + "resources" + sep + "OutputFiles");
 
+        CmdLineParser parser = new CmdLineParser(this);
         try {
             parser.parseArgument(args);
-            Split spliterator = new Split("src/main/resources/InputFiles/",
-                    "src/main/resources/OutputFiles/", oNameWithNum);
-            System.out.println(spliterator.cutFile(inputFileName, countInChars, countInLines, countOfFiles, basicOutputName));
+            Split spliterator = new Split(InputPath, OutputPath, oNameWithNum);
+            System.out.println(spliterator.cutFile(inputFileName, countInChars, countInLines, countOfFiles,basicOutputName));
         } catch (CmdLineException | IOException | IllegalArgumentException e) {
             System.err.println(e.getMessage());
             System.err.println("java -jar split.jar [-d] [-l num|-c num|-n num] [-o oFile] iFile");

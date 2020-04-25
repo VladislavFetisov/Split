@@ -3,20 +3,21 @@ package Utility;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.*;
+import java.nio.file.Path;
 import java.util.logging.Logger;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
 
 public class Split {
-    private String Input_Path, Output_Path;
+    private final Path Input_Path, Output_Path;
     private int countFiles = 0;
     private String[] array = createNamesArray();
     private boolean workingWithNumbers;
     private static Logger logger = Logger.getLogger(String.valueOf(Split.class));
 
-    public Split(String Input_Path, String Output_Path, boolean workingWithNumbers) {
-        this.Input_Path = Input_Path;
-        this.Output_Path = Output_Path;
+    public Split(Path inputPath, Path outputPath, boolean workingWithNumbers) {
+        this.Input_Path = inputPath;
+        this.Output_Path = outputPath;
         this.workingWithNumbers = workingWithNumbers;
     }
 
@@ -86,17 +87,18 @@ public class Split {
         int chr = 0, count = 0, maxCount = 0;
         boolean workingWithString = false, workingWithFiles = false;
         String line = null;
+        String sep = File.separator;
 
 
         try (BufferedReader reader = new BufferedReader(
-                new InputStreamReader(new FileInputStream(Input_Path + inputName), UTF_8))) {
+                new InputStreamReader(new FileInputStream(Input_Path + sep + inputName), UTF_8))) {
 
 
             if (countInChars != 0) {
                 maxCount = countInChars;
                 chr = reader.read();
             } else if (countOfFiles != 0) {
-                maxCount = (int) Math.ceil(fileSize(Input_Path + inputName) / countOfFiles);
+                maxCount = (int) Math.ceil(fileSize(Input_Path + sep + inputName) / countOfFiles);
                 chr = reader.read();
                 workingWithFiles = true;
             }
@@ -117,7 +119,7 @@ public class Split {
 
                 try (BufferedWriter writer =
                              new BufferedWriter(new OutputStreamWriter(
-                                     new FileOutputStream(Output_Path + outputName), UTF_8))) {
+                                     new FileOutputStream(Output_Path + sep + outputName), UTF_8))) {
 
                     while (count != maxCount) {
                         if (workingWithString) {

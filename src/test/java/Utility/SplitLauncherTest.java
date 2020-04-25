@@ -14,8 +14,9 @@ class SplitLauncherTest {
 
     @Test
     void mainTests() throws IOException, CmdLineException {
-        String OutputPath = "src/main/resources/OutputFiles/";
-        File inputFile = new File("src/main/resources/InputFiles/inputOnegin");
+        char sep = File.separatorChar;
+        String OutputPath = "src" + sep + "main" + sep + "resources" + sep + "OutputFiles" + sep;
+        File inputFile = new File("src" + sep + "main" + sep + "resources" + sep + "InputFiles" + sep + "InputOnegin");
         String inputInString = readFileToString(inputFile, UTF_8);
 
 
@@ -63,7 +64,8 @@ class SplitLauncherTest {
                 readFileToString(o5, UTF_8) + readFileToString(o6, UTF_8) +
                 readFileToString(o7, UTF_8);
         assertEquals(inputInString, output);
-        assertEquals(Math.ceil(Split.fileSize("src/main/resources/InputFiles/inputOnegin") / 7),
+        assertEquals(Math.ceil(Split.fileSize(
+                "src" + sep + "main" + sep + "resources" + sep + "InputFiles" + sep + "InputOnegin") / 7),
                 readFileToString(o1, UTF_8).length());
 
 
@@ -106,6 +108,7 @@ class SplitLauncherTest {
         args=new String[]{"-l","4","-o","Output","onputOnegin"};
         String[] finalArgs2 = args;
         assertThrows(IOException.class, () -> Main.main(finalArgs2));
+
 
     }
 
