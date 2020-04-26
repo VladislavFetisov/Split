@@ -28,7 +28,7 @@ class SplitLauncherTest {
         File o4 = new File(OutputPath + args[4] + "4");
         String output = readFileToString(o1, UTF_8) + readFileToString(o2, UTF_8) +
                 readFileToString(o3, UTF_8) + readFileToString(o4, UTF_8);
-        assertEquals(inputInString, output);
+        assertEquals(inputInString, output.replace("\r\n","\n").replace("\r","\n"));
         assertEquals(100, readFileToString(o1, UTF_8).length());
         assertEquals(100, readFileToString(o2, UTF_8).length());
         assertEquals(100, readFileToString(o3, UTF_8).length());
@@ -43,7 +43,7 @@ class SplitLauncherTest {
         o4 = new File(OutputPath + args[3] + "ad");
         output = readFileToString(o1, UTF_8) + readFileToString(o2, UTF_8) +
                 readFileToString(o3, UTF_8) + readFileToString(o4, UTF_8);
-        assertEquals(inputInString.replace("\r", "\r\n"), output);
+        assertEquals(inputInString, output.replace("\r\n","\n").replace("\r","\n"));
         assertEquals(4, countInLines(o1));
         assertEquals(4, countInLines(o2));
         assertEquals(4, countInLines(o3));
@@ -63,7 +63,7 @@ class SplitLauncherTest {
                 readFileToString(o3, UTF_8) + readFileToString(o4, UTF_8) +
                 readFileToString(o5, UTF_8) + readFileToString(o6, UTF_8) +
                 readFileToString(o7, UTF_8);
-        assertEquals(inputInString, output);
+        assertEquals(inputInString, output.replace("\r\n","\n").replace("\r","\n"));
         assertEquals(Math.ceil(Split.fileSize(
                 "src" + sep + "main" + sep + "resources" + sep + "InputFiles" + sep + "InputOnegin") / 7),
                 readFileToString(o1, UTF_8).length());
@@ -78,7 +78,7 @@ class SplitLauncherTest {
 
         output = readFileToString(o1, UTF_8) + readFileToString(o2, UTF_8) +
                 readFileToString(o3, UTF_8) + readFileToString(o4, UTF_8);
-        assertEquals(inputInString, output);
+        assertEquals(inputInString, output.replace("\r\n","\n").replace("\r","\n"));
         assertEquals(120, readFileToString(o1, UTF_8).length());
         assertEquals(120, readFileToString(o2, UTF_8).length());
         assertEquals(120, readFileToString(o3, UTF_8).length());
