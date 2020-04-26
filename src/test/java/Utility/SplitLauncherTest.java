@@ -17,7 +17,8 @@ class SplitLauncherTest {
         char sep = File.separatorChar;
         String OutputPath = "src" + sep + "main" + sep + "resources" + sep + "OutputFiles" + sep;
         File inputFile = new File("src" + sep + "main" + sep + "resources" + sep + "InputFiles" + sep + "InputOnegin");
-        String inputInString = readFileToString(inputFile, UTF_8);
+        String inputUntilReplace=readFileToString(inputFile, UTF_8);
+        String inputInString = inputUntilReplace.replaceAll("[\r\n]","");
 
 
         String[] args = {"-d", "-c", "100", "-o", "OneginOutput", "InputOnegin"};
@@ -28,11 +29,11 @@ class SplitLauncherTest {
         File o4 = new File(OutputPath + args[4] + "4");
         String output = readFileToString(o1, UTF_8) + readFileToString(o2, UTF_8) +
                 readFileToString(o3, UTF_8) + readFileToString(o4, UTF_8);
-        assertEquals(inputInString, output.replace("\r\n","\n").replace("\r","\n"));
+        assertEquals(inputInString, output.replaceAll("[\r\n]",""));
         assertEquals(100, readFileToString(o1, UTF_8).length());
         assertEquals(100, readFileToString(o2, UTF_8).length());
         assertEquals(100, readFileToString(o3, UTF_8).length());
-        assertEquals(68, readFileToString(o4, UTF_8).length());
+        assertEquals(inputUntilReplace.length()-3*100, readFileToString(o4, UTF_8).length());
 
 
         args = new String[]{"-l", "4", "-o", "Onegin", "InputOnegin"};
@@ -43,11 +44,11 @@ class SplitLauncherTest {
         o4 = new File(OutputPath + args[3] + "ad");
         output = readFileToString(o1, UTF_8) + readFileToString(o2, UTF_8) +
                 readFileToString(o3, UTF_8) + readFileToString(o4, UTF_8);
-        assertEquals(inputInString, output.replace("\r\n","\n").replace("\r","\n"));
+        assertEquals(inputInString, output.replaceAll("[\r\n]",""));
         assertEquals(4, countInLines(o1));
         assertEquals(4, countInLines(o2));
         assertEquals(4, countInLines(o3));
-        assertEquals(2, countInLines(o4));
+        assertEquals(countInLines(inputFile)-3*4, countInLines(o4));
 
 
         args = new String[]{"-n", "7", "InputOnegin"};
@@ -63,7 +64,7 @@ class SplitLauncherTest {
                 readFileToString(o3, UTF_8) + readFileToString(o4, UTF_8) +
                 readFileToString(o5, UTF_8) + readFileToString(o6, UTF_8) +
                 readFileToString(o7, UTF_8);
-        assertEquals(inputInString, output.replace("\r\n","\n").replace("\r","\n"));
+        assertEquals(inputInString, output.replaceAll("[\r\n]",""));
         assertEquals(Math.ceil(Split.fileSize(
                 "src" + sep + "main" + sep + "resources" + sep + "InputFiles" + sep + "InputOnegin") / 7),
                 readFileToString(o1, UTF_8).length());
@@ -78,11 +79,11 @@ class SplitLauncherTest {
 
         output = readFileToString(o1, UTF_8) + readFileToString(o2, UTF_8) +
                 readFileToString(o3, UTF_8) + readFileToString(o4, UTF_8);
-        assertEquals(inputInString, output.replace("\r\n","\n").replace("\r","\n"));
+        assertEquals(inputInString, output.replaceAll("[\r\n]",""));
         assertEquals(120, readFileToString(o1, UTF_8).length());
         assertEquals(120, readFileToString(o2, UTF_8).length());
         assertEquals(120, readFileToString(o3, UTF_8).length());
-        assertEquals(inputInString.length() - 120 * 3, readFileToString(o4, UTF_8).length());
+        assertEquals(inputUntilReplace.length() - 120 * 3, readFileToString(o4, UTF_8).length());
 
 
 
