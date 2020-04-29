@@ -4,8 +4,6 @@
     <file url="file://$PROJECT_DIR$/src/main/java/Utility/Main.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/main/java/Utility/Split.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/main/java/Utility/SplitLauncher.java" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/src/main/resources/META-INF/MANIFEST.MF" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/test/java/Utility/SplitLauncherTest.java" charset="UTF-8" />
-    <file url="PROJECT" charset="UTF-8" />
   </component>
 </project>

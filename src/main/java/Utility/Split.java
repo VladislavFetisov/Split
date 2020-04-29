@@ -11,9 +11,9 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 public class Split {
     private final Path Input_Path, Output_Path;
     private int countFiles = 0;
-    private String[] array = createNamesArray();
-    private boolean workingWithNumbers;
-    private static Logger logger = Logger.getLogger(String.valueOf(Split.class));
+    private final String[] array = createNamesArray();
+    private final boolean workingWithNumbers;
+    private static final Logger logger = Logger.getLogger(String.valueOf(Split.class));
 
     public Split(Path inputPath, Path outputPath, boolean workingWithNumbers) {
         this.Input_Path = inputPath;
